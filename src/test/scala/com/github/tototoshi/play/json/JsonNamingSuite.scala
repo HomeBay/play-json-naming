@@ -1,7 +1,7 @@
 package com.github.tototoshi.play.json
 
 import org.scalatest._
-import play.api.libs.json._
+import play.api.libs.json.{ JsonNaming => _, _ }
 
 case class Name(firstName: String, lastName: String)
 case class User(id: Int, nameData: Name)

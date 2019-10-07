@@ -10,7 +10,7 @@ object JsonNaming {
   private def snakecaseReads[T](parentReads: JsValue => JsResult[T]): Reads[T] = new Reads[T] {
     def reads(json: JsValue): JsResult[T] = {
       parentReads(json match {
-        case obj: JsObject => JsObject(mapKeys(obj.fields)(StringUtil.camelcase))
+        case obj: JsObject => JsObject(mapKeys(obj.fields.toSeq)(StringUtil.camelcase _))
         case x             => x
       })
     }
@@ -19,7 +19,7 @@ object JsonNaming {
   private def snakecaseWrites[T](parentWrites: T => JsValue): Writes[T] = new Writes[T] {
     def writes(o: T): JsValue = {
       parentWrites(o) match {
-        case obj: JsObject => JsObject(mapKeys(obj.fields)(StringUtil.snakecase))
+        case obj: JsObject => JsObject(mapKeys(obj.fields.toSeq)(StringUtil.snakecase _))
         case x             => x
       }
     }
